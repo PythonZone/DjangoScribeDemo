@@ -86,10 +86,62 @@ STATIC_URL = '/static/'
 
 
 
-# %JFE+> added for djangosuit
+# %JFE+[ added for djangosuit
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
 )
-# %JFE+<
+# %JFE+]
+
+
+
+# %JFE+[ added for djangosuit
+# see http://django-suit.readthedocs.org/en/develop/configuration.html
+SUIT_CONFIG = {
+    'ADMIN_NAME' : 'DjangoScribeDemo',
+    'SHOW_REQUIRED_ASTERISK': True,
+    'CONFIRM_UNSAVED_CHANGES': True,
+    'SEARCH_URL': '',   # hide search form in menu
+    'MENU_OPEN_FIRST_CHILD': False,
+    'MENU_ICONS': {
+        'sites': 'icon-leaf',
+        'auth': 'icon-lock',
+    },
+    # 'MENU_EXCLUDE': ('auth.group', 'auth'),
+    # 'MENU': (
+    #
+    #     # Keep original label and models
+    #     'sites',
+    #
+    #     # Rename app and set icon
+    #     {'app': 'auth', 'label': 'Authorization', 'icon': 'icon-lock'},
+    #
+    #     # Reorder app models
+    #     {'app': 'auth', 'models': ('user', 'group')},
+    #
+    #     # Custom app, with models
+    #     {'label': 'Settings', 'icon': 'icon-cog',
+    #      'models': ('auth.user', 'auth.group')},
+    #
+    #     # Cross-linked models with custom name; Hide default icon
+    #     {'label': 'Custom', 'icon': None, 'models': (
+    #         'auth.group',
+    #         {'model': 'auth.user', 'label': 'Staff'}
+    #     )},
+    #
+    #     # Custom app, no models (child links)
+    #     {'label': 'Users', 'url': 'auth.user', 'icon': 'icon-user'},
+    #
+    #     # Separator
+    #     '-',
+    #
+    #     # Custom app and model with permissions
+    #     {'label': 'Secure', 'permissions': 'auth.add_user', 'models': [
+    #         {'label': 'custom-child',
+    #          'permissions': ('auth.add_user', 'auth.add_group')}
+    #     ]},
+    # )
+    'LIST_PER_PAGE': 20,
+}
+# %JFE+]
