@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     # %JFE+1 added for djangosuit
+    'demo_djangosuit',
+    # %JFE+1 added for djangosuit
     'suit',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # %JFE+1 added for django_debug_toolbar
+    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
