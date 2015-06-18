@@ -34,6 +34,8 @@ INSTALLED_APPS = (
     'demo_djangosuit',
     # %JFE+1 added for djangosuit
     'suit',
+    # %JFE+1 added for djangosuit_redactor  extention
+    'suit_redactor',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +44,18 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # %JFE+1 added for django_debug_toolbar
     'debug_toolbar',
+    # %JFE+1 added for mptt
+    'mptt',
+    # %JFE+1 added for django-select2
+    'django_select2',
+    # %JFE+1 added for django-reversion
+    'reversion',
+    # %JFE+1 added for django-import-export
+    'import_export',
+    # %JFE+1 added for django-filer
+    'filer',
+    # %JFE+1 added for easy_thumbnails, required by django-filer
+    'easy_thumbnails',
 )
 
 MIDDLEWARE_CLASSES = (

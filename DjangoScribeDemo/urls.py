@@ -7,4 +7,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    # %JFE+2 added for django-select2
+    # see https://github.com/applegrew/django-select2#installation
+    url(r'^select2/', include('django_select2.urls')),
 )
