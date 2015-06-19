@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    # %JFE+1 added to demo djangosuit
+    # %JFE+1 added demos
+    'demo_django_guardian',
     'demo_djangosuit',
     'demo_django_fsm_admin',
     # %JFE+1 added for djangosuit
@@ -66,6 +67,8 @@ INSTALLED_APPS = (
     'django_filters',
     # %JFE+1 added for rest_framework
     'rest_framework',
+    # %JFE+1 added for django-guardian, could be used with rest_framework
+    'guardian',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -183,4 +186,15 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+# %JFE+]
+
+
+# %JFE+[ example of usage of rest_framework.
+# see http://django-guardian.readthedocs.org/en/v1.2/configuration.html
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
+
+ANONYMOUS_USER_ID = -1
 # %JFE+]
