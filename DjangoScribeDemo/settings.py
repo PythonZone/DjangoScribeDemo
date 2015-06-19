@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Django settings for DjangoScribeDemo project.
 
@@ -59,6 +60,8 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     # %JFE+1 added for django-fsm-admin
     'fsm_admin',
+    # %JFE+1 added for django-fsm-log
+    'django_fsm_log',
 )
 
 MIDDLEWARE_CLASSES = (
