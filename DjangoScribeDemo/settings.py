@@ -31,10 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    # %JFE+1 added demos
+    # %JFE+4 added demos
     'demo_django_guardian',
     'demo_djangosuit',
     'demo_django_fsm_admin',
+    'demo_django_taggit',
     # %JFE+1 added for djangosuit
     'suit',
     # %JFE+1 added for djangosuit_redactor  extention
@@ -73,6 +74,8 @@ INSTALLED_APPS = (
     'guardian',
     # %JFE+1 added for django-explorer
     'explorer',
+    # %JFE+1 added for django-taggit
+    'taggit',
 )
 
 MIDDLEWARE_CLASSES = (
