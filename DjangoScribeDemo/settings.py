@@ -30,8 +30,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    # %JFE+1 added for djangosuit
+    # %JFE+1 added to demo djangosuit
     'demo_djangosuit',
+    'demo_django_fsm_admin',
     # %JFE+1 added for djangosuit
     'suit',
     # %JFE+1 added for djangosuit_redactor  extention
@@ -56,6 +57,8 @@ INSTALLED_APPS = (
     'filer',
     # %JFE+1 added for easy_thumbnails, required by django-filer
     'easy_thumbnails',
+    # %JFE+1 added for django-fsm-admin
+    'fsm_admin',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -104,7 +107,7 @@ STATIC_URL = '/static/'
 
 
 
-# %JFE+[ added for djangosuit
+# %JFE+[ added for djangosuit and for django-fsm-admin
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
