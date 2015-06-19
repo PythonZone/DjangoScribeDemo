@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    # %JFE+1
+    'companies101rdb',
     # %JFE+4 added demos
     'demo_django_guardian',
     'demo_djangosuit',
@@ -46,6 +48,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # %JFE+1 added to enable django' admindocs optional app
+    'django.contrib.admindocs',
     # %JFE+1 added for django_debug_toolbar
     'debug_toolbar',
     # %JFE+1 added for mptt
@@ -208,3 +212,9 @@ ANONYMOUS_USER_ID = -1
 
 # %JFE+1 added so that all sql tables (including auth, etc) are visible
 EXPLORER_SCHEMA_EXCLUDE_APPS = ()
+
+# %JFE+[ added to make it possible to use custom ''
+# see
+import django.db.models.options as options
+options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('computed_fields',)
+# %JFE+]
