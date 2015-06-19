@@ -62,6 +62,10 @@ INSTALLED_APPS = (
     'fsm_admin',
     # %JFE+1 added for django-fsm-log
     'django_fsm_log',
+    # %JFE+1 added for django_filters, required by rest_framework
+    'django_filters',
+    # %JFE+1 added for rest_framework
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -167,5 +171,16 @@ SUIT_CONFIG = {
     #     ]},
     # )
     'LIST_PER_PAGE': 20,
+}
+# %JFE+]
+
+# %JFE+[ example of usage of rest_framework.
+# see http://www.django-rest-framework.org/#example
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
 # %JFE+]
