@@ -67,6 +67,8 @@ INSTALLED_APPS = (
     'django_filters',
     # %JFE+1 added for rest_framework
     'rest_framework',
+    # %JFE+1 added for rest_framework_swagger
+    'rest_framework_swagger',
     # %JFE+1 added for django-guardian, could be used with rest_framework
     'guardian',
     # %JFE+1 added for django-explorer

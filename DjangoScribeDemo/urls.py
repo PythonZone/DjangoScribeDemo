@@ -36,11 +36,14 @@ urlpatterns = patterns('',
     url(r'^select2/', include('django_select2.urls')),
     # %JFE+3 added for rest-framework
     # see http://www.django-rest-framework.org/#installation
-    url(r'^api-auth/',
+    url(r'^rest-auth/',
         include('rest_framework.urls', namespace='rest_framework')),
     # %JFE+2 added for rest-framework example. added at api here
     # see http://www.django-rest-framework.org/#example
-    url(r'^api/', include(router.urls)),
+    url(r'^rest/', include(router.urls)),
+    # %JFE+2 added for rest-framework example. added at 'api' here
+    # see http://www.django-rest-framework.org/#example
+    url(r'^restdocs/', include('rest_framework_swagger.urls')),
     # %JFE+2 added for rest-framework example. added at 'sql/' here
     # see http://www.django-rest-framework.org/#example
     url(r'^sql/', include('explorer.urls')),
