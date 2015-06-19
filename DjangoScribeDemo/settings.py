@@ -69,6 +69,8 @@ INSTALLED_APPS = (
     'rest_framework',
     # %JFE+1 added for django-guardian, could be used with rest_framework
     'guardian',
+    # %JFE+1 added for django-explorer
+    'explorer',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -198,3 +200,6 @@ AUTHENTICATION_BACKENDS = (
 
 ANONYMOUS_USER_ID = -1
 # %JFE+]
+
+# %JFE+1 added so that all sql tables (including auth, etc) are visible
+EXPLORER_SCHEMA_EXCLUDE_APPS = ()

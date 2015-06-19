@@ -40,5 +40,8 @@ urlpatterns = patterns('',
         include('rest_framework.urls', namespace='rest_framework')),
     # %JFE+2 added for rest-framework example. added at api here
     # see http://www.django-rest-framework.org/#example
-    url(r'^api/', include(router.urls))
+    url(r'^api/', include(router.urls)),
+    # %JFE+2 added for rest-framework example. added at 'sql/' here
+    # see http://www.django-rest-framework.org/#example
+    url(r'^sql/', include('explorer.urls')),
 )
