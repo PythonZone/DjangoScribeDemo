@@ -218,3 +218,44 @@ EXPLORER_SCHEMA_EXCLUDE_APPS = ()
 import django.db.models.options as options
 options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('computed_fields',)
 # %JFE+]
+
+
+# %JFE+[ suppress some warnings
+# see http://stackoverflow.com/questions/28424420/cant-silence-warnings-that-django-cms-produces
+WARNINGS_TO_IGNORE = {
+    'RemovedInDjango18Warning: `SuitAdminUser.queryset` '
+         'method should be renamed `get_queryset`.',
+
+}
+
+def filter_some_warnings(record):
+    for warning in WARNINGS_TO_IGNORE:
+        # print '***', record.args[0]
+        # print '   ', ignored in record.args[0]
+        if warning in record.args[0]:
+            return False
+    return True
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'filters': {
+        'ignore_some_warnings': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': filter_some_warnings,
+        },
+    },
+    'loggers': {
+        'py.warnings': {
+            'handlers': ['console', ],
+            'filters': ['ignore_some_warnings', ],
+        }
+    },
+}
+# %JFE+]
