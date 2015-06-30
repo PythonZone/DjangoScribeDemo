@@ -69,6 +69,8 @@ INSTALLED_APPS = (
     'fsm_admin',
     # %JFE+1 added for django-fsm-log
     'django_fsm_log',
+    # %JFE+1 added for django-extensions
+    'django_extensions',
     # %JFE+1 added for django_filters, required by rest_framework
     'django_filters',
     # %JFE+1 added for rest_framework
