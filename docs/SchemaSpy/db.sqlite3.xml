@@ -1,0 +1,848 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="db.sqlite3" type="SQLite - 3.8.10.1">
+   <tables>
+      <table name="auth_group" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="group_id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_group_permissions"/>
+            <child column="group_id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user_groups"/>
+            <child column="group_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_folderpermission"/>
+            <child column="group_id" foreignKey="" implied="false" onDeleteCascade="false" table="guardian_groupobjectpermission"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(80)"/>
+         <index name="sqlite_autoindex_auth_group_1" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+      </table>
+      <table name="auth_group_permissions" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="group_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_group"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="1" name="permission_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_permission"/>
+         </column>
+         <index name="auth_group_permissions_0e939a4f" unique="false">
+            <column ascending="true" name="group_id"/>
+         </index>
+         <index name="auth_group_permissions_8373b171" unique="false">
+            <column ascending="true" name="permission_id"/>
+         </index>
+         <index name="sqlite_autoindex_auth_group_permissions_1" unique="true">
+            <column ascending="true" name="group_id"/>
+            <column ascending="true" name="permission_id"/>
+         </index>
+      </table>
+      <table name="auth_permission" numRows="134" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="permission_id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_group_permissions"/>
+            <child column="permission_id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user_user_permissions"/>
+            <child column="permission_id" foreignKey="" implied="false" onDeleteCascade="false" table="guardian_groupobjectpermission"/>
+            <child column="permission_id" foreignKey="" implied="false" onDeleteCascade="false" table="guardian_userobjectpermission"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(50)"/>
+         <column autoUpdated="false" digits="10" id="1" name="content_type_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="django_content_type"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="2" name="codename" nullable="false" remarks="" size="2000000000" type="VARCHAR(100)"/>
+         <index name="auth_permission_417f1b1c" unique="false">
+            <column ascending="true" name="content_type_id"/>
+         </index>
+         <index name="sqlite_autoindex_auth_permission_1" unique="true">
+            <column ascending="true" name="content_type_id"/>
+            <column ascending="true" name="codename"/>
+         </index>
+      </table>
+      <table name="auth_user" numRows="3" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="user_id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user_groups"/>
+            <child column="user_id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user_user_permissions"/>
+            <child column="user_id" foreignKey="" implied="false" onDeleteCascade="false" table="django_admin_log"/>
+            <child column="by_id" foreignKey="" implied="false" onDeleteCascade="false" table="django_fsm_log_statelog"/>
+            <child column="created_by_user_id" foreignKey="" implied="false" onDeleteCascade="false" table="explorer_query"/>
+            <child column="run_by_user_id" foreignKey="" implied="false" onDeleteCascade="false" table="explorer_querylog"/>
+            <child column="user_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_clipboard"/>
+            <child column="owner_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_file"/>
+            <child column="owner_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_folder"/>
+            <child column="user_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_folderpermission"/>
+            <child column="user_id" foreignKey="" implied="false" onDeleteCascade="false" table="guardian_userobjectpermission"/>
+            <child column="user_id" foreignKey="" implied="false" onDeleteCascade="false" table="reversion_revision"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="password" nullable="false" remarks="" size="2000000000" type="VARCHAR(128)"/>
+         <column autoUpdated="false" digits="10" id="1" name="last_login" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="2" name="is_superuser" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="3" name="username" nullable="false" remarks="" size="2000000000" type="VARCHAR(30)"/>
+         <column autoUpdated="false" digits="10" id="4" name="first_name" nullable="false" remarks="" size="2000000000" type="VARCHAR(30)"/>
+         <column autoUpdated="false" digits="10" id="5" name="last_name" nullable="false" remarks="" size="2000000000" type="VARCHAR(30)"/>
+         <column autoUpdated="false" digits="10" id="6" name="email" nullable="false" remarks="" size="2000000000" type="VARCHAR(75)"/>
+         <column autoUpdated="false" digits="10" id="7" name="is_staff" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="8" name="is_active" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="9" name="date_joined" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <index name="sqlite_autoindex_auth_user_1" unique="true">
+            <column ascending="true" name="username"/>
+         </index>
+      </table>
+      <table name="auth_user_groups" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="user_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="1" name="group_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_group"/>
+         </column>
+         <index name="auth_user_groups_0e939a4f" unique="false">
+            <column ascending="true" name="group_id"/>
+         </index>
+         <index name="auth_user_groups_e8701ad4" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+         <index name="sqlite_autoindex_auth_user_groups_1" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="group_id"/>
+         </index>
+      </table>
+      <table name="auth_user_user_permissions" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="user_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="1" name="permission_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_permission"/>
+         </column>
+         <index name="auth_user_user_permissions_8373b171" unique="false">
+            <column ascending="true" name="permission_id"/>
+         </index>
+         <index name="auth_user_user_permissions_e8701ad4" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+         <index name="sqlite_autoindex_auth_user_user_permissions_1" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="permission_id"/>
+         </index>
+      </table>
+      <table name="companies101rdb_company" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="company_id" foreignKey="" implied="false" onDeleteCascade="false" table="companies101rdb_department"/>
+            <child column="company_id" foreignKey="" implied="false" onDeleteCascade="false" table="companies101rdb_employee"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+      </table>
+      <table name="companies101rdb_department" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="department_id" foreignKey="" implied="false" onDeleteCascade="false" table="companies101rdb_employee"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="1" name="company_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="companies101rdb_company"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="2" name="manager_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="companies101rdb_employee"/>
+         </column>
+         <index name="companies101rdb_department_447d3092" unique="false">
+            <column ascending="true" name="company_id"/>
+         </index>
+         <index name="sqlite_autoindex_companies101rdb_department_1" unique="true">
+            <column ascending="true" name="manager_id"/>
+         </index>
+      </table>
+      <table name="companies101rdb_employee" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="manager_id" foreignKey="" implied="false" onDeleteCascade="false" table="companies101rdb_department"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="1" name="address" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="2" name="salary" nullable="false" remarks="" size="2000000000" type="REAL"/>
+         <column autoUpdated="false" digits="10" id="3" name="company_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="companies101rdb_company"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="4" name="department_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="companies101rdb_department"/>
+         </column>
+         <index name="companies101rdb_employee_447d3092" unique="false">
+            <column ascending="true" name="company_id"/>
+         </index>
+         <index name="companies101rdb_employee_bf691be4" unique="false">
+            <column ascending="true" name="department_id"/>
+         </index>
+      </table>
+      <table name="demo_django_fsm_admin_publishablemodel" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(42)"/>
+         <column autoUpdated="false" digits="10" id="1" name="state" nullable="false" remarks="" size="2000000000" type="VARCHAR(50)"/>
+         <column autoUpdated="false" digits="10" id="2" name="display_from" nullable="true" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="3" name="display_until" nullable="true" remarks="" size="2000000000" type="DATETIME"/>
+      </table>
+      <table name="demo_django_guardian_post" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="title" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="1" name="slug" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="2" name="content" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="3" name="created_at" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <index name="demo_django_guardian_post_2dbcba41" unique="false">
+            <column ascending="true" name="slug"/>
+         </index>
+         <index name="demo_django_guardian_post_fde81f11" unique="false">
+            <column ascending="true" name="created_at"/>
+         </index>
+      </table>
+      <table name="demo_django_taggit_food" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="title" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+      </table>
+      <table name="demo_djangosuit_category" numRows="6" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="parent_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_category"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="is_active" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="1" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="2" name="slug" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="3" name="order" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="4" name="lft" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="5" name="rght" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="6" name="tree_id" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="7" name="level" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="8" name="parent_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_category"/>
+         </column>
+         <index name="demo_djangosuit_category_3cfbd988" unique="false">
+            <column ascending="true" name="rght"/>
+         </index>
+         <index name="demo_djangosuit_category_656442a0" unique="false">
+            <column ascending="true" name="tree_id"/>
+         </index>
+         <index name="demo_djangosuit_category_6be37982" unique="false">
+            <column ascending="true" name="parent_id"/>
+         </index>
+         <index name="demo_djangosuit_category_c9e9a848" unique="false">
+            <column ascending="true" name="level"/>
+         </index>
+         <index name="demo_djangosuit_category_caf7cc51" unique="false">
+            <column ascending="true" name="lft"/>
+         </index>
+      </table>
+      <table name="demo_djangosuit_city" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="1" name="area" nullable="true" remarks="" size="2000000000" type="BIGINT"/>
+         <column autoUpdated="false" digits="10" id="2" name="population" nullable="true" remarks="" size="2000000000" type="BIGINT"/>
+         <column autoUpdated="false" digits="10" id="3" name="country_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_country"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="4" name="capital" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <index name="demo_djangosuit_city_93bfec8a" unique="false">
+            <column ascending="true" name="country_id"/>
+         </index>
+         <index name="sqlite_autoindex_demo_djangosuit_city_1" unique="true">
+            <column ascending="true" name="name"/>
+            <column ascending="true" name="country_id"/>
+         </index>
+      </table>
+      <table name="demo_djangosuit_continent" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="continent_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_country"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(256)"/>
+         <column autoUpdated="false" digits="10" id="1" name="order" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+      </table>
+      <table name="demo_djangosuit_country" numRows="3" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="country_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_city"/>
+            <child column="country_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_kitchensink"/>
+            <child column="linked_foreign_key_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_kitchensink"/>
+            <child column="raw_id_field_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_kitchensink"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(256)"/>
+         <column autoUpdated="false" digits="10" id="1" name="code" nullable="false" remarks="" size="2000000000" type="VARCHAR(2)"/>
+         <column autoUpdated="false" digits="10" id="2" name="independence_day" nullable="true" remarks="" size="2000000000" type="DATE"/>
+         <column autoUpdated="false" digits="10" id="3" name="area" nullable="true" remarks="" size="2000000000" type="BIGINT"/>
+         <column autoUpdated="false" digits="10" id="4" name="population" nullable="true" remarks="" size="2000000000" type="BIGINT"/>
+         <column autoUpdated="false" digits="10" id="5" name="order" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="6" name="description" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="7" name="architecture" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="8" name="continent_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_continent"/>
+         </column>
+         <index name="demo_djangosuit_country_071e6d87" unique="false">
+            <column ascending="true" name="continent_id"/>
+         </index>
+      </table>
+      <table name="demo_djangosuit_fridge" numRows="3" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="1" name="type" nullable="false" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="2" name="description" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="3" name="order" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="4" name="kitchensink_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_kitchensink"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="5" name="is_quiet" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <index name="demo_djangosuit_fridge_fc5655fa" unique="false">
+            <column ascending="true" name="kitchensink_id"/>
+         </index>
+      </table>
+      <table name="demo_djangosuit_importexportitem" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="1" name="quality" nullable="false" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="2" name="is_active" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+      </table>
+      <table name="demo_djangosuit_kitchensink" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="kitchensink_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_fridge"/>
+            <child column="kitchensink_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_microwave"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="1" name="help_text" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="2" name="multiple_in_row" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="3" name="multiple2" nullable="false" remarks="" size="2000000000" type="VARCHAR(10)"/>
+         <column autoUpdated="false" digits="10" id="4" name="textfield" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="5" name="file" nullable="false" remarks="" size="2000000000" type="VARCHAR(100)"/>
+         <column autoUpdated="false" digits="10" id="6" name="readonly_field" nullable="false" remarks="" size="2000000000" type="VARCHAR(127)"/>
+         <column autoUpdated="false" digits="10" id="7" name="date" nullable="true" remarks="" size="2000000000" type="DATE"/>
+         <column autoUpdated="false" digits="10" id="8" name="date_and_time" nullable="true" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="9" name="date_widget" nullable="true" remarks="" size="2000000000" type="DATE"/>
+         <column autoUpdated="false" digits="10" id="10" name="datetime_widget" nullable="true" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="11" name="boolean" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="12" name="boolean_with_help" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="13" name="horizontal_choices" nullable="false" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="14" name="vertical_choices" nullable="false" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="15" name="choices" nullable="false" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="16" name="hidden_choice" nullable="false" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="17" name="hidden_charfield" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="18" name="hidden_charfield2" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="19" name="enclosed1" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="20" name="enclosed2" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="21" name="country_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_country"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="22" name="linked_foreign_key_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_country"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="23" name="raw_id_field_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_country"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="24" name="hidden_checkbox" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <index name="demo_djangosuit_kitchensink_23e509a9" unique="false">
+            <column ascending="true" name="raw_id_field_id"/>
+         </index>
+         <index name="demo_djangosuit_kitchensink_93bfec8a" unique="false">
+            <column ascending="true" name="country_id"/>
+         </index>
+         <index name="demo_djangosuit_kitchensink_b426d2d3" unique="false">
+            <column ascending="true" name="linked_foreign_key_id"/>
+         </index>
+      </table>
+      <table name="demo_djangosuit_microwave" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="1" name="type" nullable="false" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="2" name="order" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="3" name="kitchensink_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_djangosuit_kitchensink"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="4" name="is_compact" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <index name="demo_djangosuit_microwave_fc5655fa" unique="false">
+            <column ascending="true" name="kitchensink_id"/>
+         </index>
+      </table>
+      <table name="demo_djangosuit_reversioneditem" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="1" name="quality" nullable="false" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="2" name="is_active" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+      </table>
+      <table name="demo_djangosuit_wysiwygeditor" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(64)"/>
+         <column autoUpdated="false" digits="10" id="1" name="redactor" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="2" name="redactor2" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="3" name="ckeditor" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+      </table>
+      <table name="demo_scrapy_residence" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="residence_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_scrapy_residence_typesDeLogement"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(80)"/>
+         <column autoUpdated="false" digits="10" id="1" name="url" nullable="false" remarks="" size="2000000000" type="VARCHAR(80)"/>
+         <column autoUpdated="false" digits="10" id="2" name="description" nullable="true" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="3" name="city" nullable="false" remarks="" size="2000000000" type="VARCHAR(80)"/>
+         <column autoUpdated="false" digits="10" id="4" name="images" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="5" name="villeMere_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_scrapy_villemere"/>
+         </column>
+         <index name="demo_scrapy_residence_fb01b020" unique="false">
+            <column ascending="true" name="villeMere_id"/>
+         </index>
+      </table>
+      <table name="demo_scrapy_residence_typesDeLogement" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="residence_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_scrapy_residence"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="1" name="typedelogement_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_scrapy_typedelogement"/>
+         </column>
+         <index name="sqlite_autoindex_demo_scrapy_residence_typesDeLogement_1" unique="true">
+            <column ascending="true" name="residence_id"/>
+            <column ascending="true" name="typedelogement_id"/>
+         </index>
+      </table>
+      <table name="demo_scrapy_typedelogement" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="typedelogement_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_scrapy_residence_typesDeLogement"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(80)"/>
+      </table>
+      <table name="demo_scrapy_villemere" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="villeMere_id" foreignKey="" implied="false" onDeleteCascade="false" table="demo_scrapy_residence"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(80)"/>
+         <column autoUpdated="false" digits="10" id="1" name="url" nullable="false" remarks="" size="2000000000" type="VARCHAR(80)"/>
+      </table>
+      <table name="django_admin_log" numRows="72" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="action_time" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="1" name="object_id" nullable="true" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="2" name="object_repr" nullable="false" remarks="" size="2000000000" type="VARCHAR(200)"/>
+         <column autoUpdated="false" digits="10" id="3" name="action_flag" nullable="false" remarks="" size="2000000000" type="SMALLINT UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="4" name="change_message" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="5" name="content_type_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="django_content_type"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="6" name="user_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <index name="django_admin_log_417f1b1c" unique="false">
+            <column ascending="true" name="content_type_id"/>
+         </index>
+         <index name="django_admin_log_e8701ad4" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="django_content_type" numRows="44" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="content_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_permission"/>
+            <child column="content_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="django_admin_log"/>
+            <child column="content_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="django_fsm_log_statelog"/>
+            <child column="polymorphic_ctype_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_file"/>
+            <child column="content_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="guardian_groupobjectpermission"/>
+            <child column="content_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="guardian_userobjectpermission"/>
+            <child column="content_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="reversion_version"/>
+            <child column="content_type_id" foreignKey="" implied="false" onDeleteCascade="false" table="taggit_taggeditem"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(100)"/>
+         <column autoUpdated="false" digits="10" id="1" name="app_label" nullable="false" remarks="" size="2000000000" type="VARCHAR(100)"/>
+         <column autoUpdated="false" digits="10" id="2" name="model" nullable="false" remarks="" size="2000000000" type="VARCHAR(100)"/>
+         <index name="sqlite_autoindex_django_content_type_1" unique="true">
+            <column ascending="true" name="app_label"/>
+            <column ascending="true" name="model"/>
+         </index>
+      </table>
+      <table name="django_fsm_log_statelog" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="timestamp" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="1" name="state" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="2" name="transition" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="3" name="object_id" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="4" name="by_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="5" name="content_type_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="django_content_type"/>
+         </column>
+         <index name="django_fsm_log_statelog_417f1b1c" unique="false">
+            <column ascending="true" name="content_type_id"/>
+         </index>
+         <index name="django_fsm_log_statelog_6940e846" unique="false">
+            <column ascending="true" name="by_id"/>
+         </index>
+         <index name="django_fsm_log_statelog_9ed39e2e" unique="false">
+            <column ascending="true" name="state"/>
+         </index>
+         <index name="django_fsm_log_statelog_af31437c" unique="false">
+            <column ascending="true" name="object_id"/>
+         </index>
+      </table>
+      <table name="django_migrations" numRows="22" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="app" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="1" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="2" name="applied" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+      </table>
+      <table name="django_select2_keymap" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="key" nullable="false" remarks="" size="2000000000" type="VARCHAR(40)"/>
+         <column autoUpdated="false" digits="10" id="1" name="value" nullable="false" remarks="" size="2000000000" type="VARCHAR(100)"/>
+         <column autoUpdated="false" digits="10" id="2" name="accessed_on" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <index name="sqlite_autoindex_django_select2_keymap_1" unique="true">
+            <column ascending="true" name="key"/>
+         </index>
+      </table>
+      <table name="django_session" numRows="7" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="10" id="-1" name="session_key" nullable="false" remarks="" size="2000000000" type="VARCHAR(40)"/>
+         <column autoUpdated="false" digits="10" id="0" name="session_data" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="1" name="expire_date" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <index name="django_session_de54fa62" unique="false">
+            <column ascending="true" name="expire_date"/>
+         </index>
+         <index name="sqlite_autoindex_django_session_1" unique="true">
+            <column ascending="true" name="session_key"/>
+         </index>
+      </table>
+      <table name="easy_thumbnails_source" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="source_id" foreignKey="" implied="false" onDeleteCascade="false" table="easy_thumbnails_thumbnail"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="storage_hash" nullable="false" remarks="" size="2000000000" type="VARCHAR(40)"/>
+         <column autoUpdated="false" digits="10" id="1" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="2" name="modified" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <index name="easy_thumbnails_source_b068931c" unique="false">
+            <column ascending="true" name="name"/>
+         </index>
+         <index name="easy_thumbnails_source_b454e115" unique="false">
+            <column ascending="true" name="storage_hash"/>
+         </index>
+         <index name="sqlite_autoindex_easy_thumbnails_source_1" unique="true">
+            <column ascending="true" name="storage_hash"/>
+            <column ascending="true" name="name"/>
+         </index>
+      </table>
+      <table name="easy_thumbnails_thumbnail" numRows="9" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="thumbnail_id" foreignKey="" implied="false" onDeleteCascade="false" table="easy_thumbnails_thumbnaildimensions"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="storage_hash" nullable="false" remarks="" size="2000000000" type="VARCHAR(40)"/>
+         <column autoUpdated="false" digits="10" id="1" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="2" name="modified" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="3" name="source_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="easy_thumbnails_source"/>
+         </column>
+         <index name="easy_thumbnails_thumbnail_0afd9202" unique="false">
+            <column ascending="true" name="source_id"/>
+         </index>
+         <index name="easy_thumbnails_thumbnail_b068931c" unique="false">
+            <column ascending="true" name="name"/>
+         </index>
+         <index name="easy_thumbnails_thumbnail_b454e115" unique="false">
+            <column ascending="true" name="storage_hash"/>
+         </index>
+         <index name="sqlite_autoindex_easy_thumbnails_thumbnail_1" unique="true">
+            <column ascending="true" name="storage_hash"/>
+            <column ascending="true" name="name"/>
+            <column ascending="true" name="source_id"/>
+         </index>
+      </table>
+      <table name="easy_thumbnails_thumbnaildimensions" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="thumbnail_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="easy_thumbnails_thumbnail"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="1" name="width" nullable="true" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="2" name="height" nullable="true" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <index name="sqlite_autoindex_easy_thumbnails_thumbnaildimensions_1" unique="true">
+            <column ascending="true" name="thumbnail_id"/>
+         </index>
+      </table>
+      <table name="explorer_query" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="query_id" foreignKey="" implied="false" onDeleteCascade="false" table="explorer_querylog"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="title" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="1" name="sql" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="2" name="description" nullable="true" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="3" name="created_at" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="4" name="last_run_date" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="5" name="created_by_user_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <index name="explorer_query_bb89ac1e" unique="false">
+            <column ascending="true" name="created_by_user_id"/>
+         </index>
+      </table>
+      <table name="explorer_querylog" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="sql" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="1" name="is_playground" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="2" name="run_at" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="3" name="query_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="explorer_query"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="4" name="run_by_user_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <index name="explorer_querylog_0bbeda9c" unique="false">
+            <column ascending="true" name="query_id"/>
+         </index>
+         <index name="explorer_querylog_f0e421b5" unique="false">
+            <column ascending="true" name="run_by_user_id"/>
+         </index>
+      </table>
+      <table name="filer_clipboard" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="clipboard_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_clipboarditem"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="user_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <index name="filer_clipboard_e8701ad4" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="filer_clipboarditem" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="clipboard_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_clipboard"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="1" name="file_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_file"/>
+         </column>
+         <index name="filer_clipboarditem_2655b062" unique="false">
+            <column ascending="true" name="clipboard_id"/>
+         </index>
+         <index name="filer_clipboarditem_814552b9" unique="false">
+            <column ascending="true" name="file_id"/>
+         </index>
+      </table>
+      <table name="filer_file" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="file_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_clipboarditem"/>
+            <child column="file_ptr_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_image"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="polymorphic_ctype_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="django_content_type"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="1" name="file" nullable="true" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="2" name="_file_size" nullable="true" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="3" name="sha1" nullable="false" remarks="" size="2000000000" type="VARCHAR(40)"/>
+         <column autoUpdated="false" digits="10" id="4" name="has_all_mandatory_data" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="5" name="original_filename" nullable="true" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="6" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="7" name="description" nullable="true" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="8" name="uploaded_at" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="9" name="modified_at" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="10" name="is_public" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="11" name="folder_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_folder"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="12" name="owner_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <index name="filer_file_5e7b1936" unique="false">
+            <column ascending="true" name="owner_id"/>
+         </index>
+         <index name="filer_file_a8a44dbb" unique="false">
+            <column ascending="true" name="folder_id"/>
+         </index>
+         <index name="filer_file_d3e32c49" unique="false">
+            <column ascending="true" name="polymorphic_ctype_id"/>
+         </index>
+      </table>
+      <table name="filer_folder" numRows="3" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="folder_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_file"/>
+            <child column="parent_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_folder"/>
+            <child column="folder_id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_folderpermission"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="1" name="uploaded_at" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="2" name="created_at" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="3" name="modified_at" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="4" name="lft" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="5" name="rght" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="6" name="tree_id" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="7" name="level" nullable="false" remarks="" size="2000000000" type="INTEGER UNSIGNED"/>
+         <column autoUpdated="false" digits="10" id="8" name="owner_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="9" name="parent_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_folder"/>
+         </column>
+         <index name="filer_folder_3cfbd988" unique="false">
+            <column ascending="true" name="rght"/>
+         </index>
+         <index name="filer_folder_5e7b1936" unique="false">
+            <column ascending="true" name="owner_id"/>
+         </index>
+         <index name="filer_folder_656442a0" unique="false">
+            <column ascending="true" name="tree_id"/>
+         </index>
+         <index name="filer_folder_6be37982" unique="false">
+            <column ascending="true" name="parent_id"/>
+         </index>
+         <index name="filer_folder_c9e9a848" unique="false">
+            <column ascending="true" name="level"/>
+         </index>
+         <index name="filer_folder_caf7cc51" unique="false">
+            <column ascending="true" name="lft"/>
+         </index>
+         <index name="sqlite_autoindex_filer_folder_1" unique="true">
+            <column ascending="true" name="parent_id"/>
+            <column ascending="true" name="name"/>
+         </index>
+      </table>
+      <table name="filer_folderpermission" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="type" nullable="false" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="1" name="everybody" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="2" name="can_edit" nullable="true" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="3" name="can_read" nullable="true" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="4" name="can_add_children" nullable="true" remarks="" size="2000000000" type="SMALLINT"/>
+         <column autoUpdated="false" digits="10" id="5" name="folder_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_folder"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="6" name="group_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_group"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="7" name="user_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+      </table>
+      <table name="filer_image" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="10" id="-1" name="file_ptr_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="filer_file"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="_height" nullable="true" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="1" name="_width" nullable="true" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="2" name="date_taken" nullable="true" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="3" name="default_alt_text" nullable="true" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="4" name="default_caption" nullable="true" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="5" name="author" nullable="true" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="6" name="must_always_publish_author_credit" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="7" name="must_always_publish_copyright" nullable="false" remarks="" size="2000000000" type="BOOL"/>
+         <column autoUpdated="false" digits="10" id="8" name="subject_location" nullable="true" remarks="" size="2000000000" type="VARCHAR(64)"/>
+      </table>
+      <table name="guardian_groupobjectpermission" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="object_pk" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="1" name="content_type_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="django_content_type"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="2" name="group_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_group"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="3" name="permission_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_permission"/>
+         </column>
+         <index name="guardian_groupobjectpermission_0e939a4f" unique="false">
+            <column ascending="true" name="group_id"/>
+         </index>
+         <index name="guardian_groupobjectpermission_417f1b1c" unique="false">
+            <column ascending="true" name="content_type_id"/>
+         </index>
+         <index name="guardian_groupobjectpermission_8373b171" unique="false">
+            <column ascending="true" name="permission_id"/>
+         </index>
+         <index name="sqlite_autoindex_guardian_groupobjectpermission_1" unique="true">
+            <column ascending="true" name="group_id"/>
+            <column ascending="true" name="permission_id"/>
+            <column ascending="true" name="object_pk"/>
+         </index>
+      </table>
+      <table name="guardian_userobjectpermission" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="object_pk" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="1" name="content_type_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="django_content_type"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="2" name="permission_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_permission"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="3" name="user_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <index name="guardian_userobjectpermission_417f1b1c" unique="false">
+            <column ascending="true" name="content_type_id"/>
+         </index>
+         <index name="guardian_userobjectpermission_8373b171" unique="false">
+            <column ascending="true" name="permission_id"/>
+         </index>
+         <index name="guardian_userobjectpermission_e8701ad4" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+         <index name="sqlite_autoindex_guardian_userobjectpermission_1" unique="true">
+            <column ascending="true" name="user_id"/>
+            <column ascending="true" name="permission_id"/>
+            <column ascending="true" name="object_pk"/>
+         </index>
+      </table>
+      <table name="reversion_revision" numRows="11" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="revision_id" foreignKey="" implied="false" onDeleteCascade="false" table="reversion_version"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="date_created" nullable="false" remarks="" size="2000000000" type="DATETIME"/>
+         <column autoUpdated="false" digits="10" id="1" name="comment" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="2" name="user_id" nullable="true" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="auth_user"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="3" name="manager_slug" nullable="false" remarks="" size="2000000000" type="VARCHAR(191)"/>
+         <index name="reversion_revision_b16b0f06" unique="false">
+            <column ascending="true" name="manager_slug"/>
+         </index>
+         <index name="reversion_revision_c69e55a4" unique="false">
+            <column ascending="true" name="date_created"/>
+         </index>
+         <index name="reversion_revision_e8701ad4" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="reversion_version" numRows="11" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="object_id" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="1" name="object_id_int" nullable="true" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="2" name="format" nullable="false" remarks="" size="2000000000" type="VARCHAR(255)"/>
+         <column autoUpdated="false" digits="10" id="3" name="serialized_data" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="4" name="object_repr" nullable="false" remarks="" size="2000000000" type="TEXT"/>
+         <column autoUpdated="false" digits="10" id="5" name="content_type_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="django_content_type"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="6" name="revision_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="reversion_revision"/>
+         </column>
+         <index name="reversion_version_0c9ba3a3" unique="false">
+            <column ascending="true" name="object_id_int"/>
+         </index>
+         <index name="reversion_version_417f1b1c" unique="false">
+            <column ascending="true" name="content_type_id"/>
+         </index>
+         <index name="reversion_version_5de09a8d" unique="false">
+            <column ascending="true" name="revision_id"/>
+         </index>
+      </table>
+      <table name="sqlite_sequence" numRows="36" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="10" id="-1" name="name" nullable="true" remarks="" size="2000000000" type=""/>
+         <column autoUpdated="false" digits="10" id="0" name="seq" nullable="true" remarks="" size="2000000000" type=""/>
+      </table>
+      <table name="taggit_tag" numRows="3" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <child column="tag_id" foreignKey="" implied="false" onDeleteCascade="false" table="taggit_taggeditem"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="0" name="name" nullable="false" remarks="" size="2000000000" type="VARCHAR(100)"/>
+         <column autoUpdated="false" digits="10" id="1" name="slug" nullable="false" remarks="" size="2000000000" type="VARCHAR(100)"/>
+         <index name="sqlite_autoindex_taggit_tag_1" unique="true">
+            <column ascending="true" name="name"/>
+         </index>
+         <index name="sqlite_autoindex_taggit_tag_2" unique="true">
+            <column ascending="true" name="slug"/>
+         </index>
+      </table>
+      <table name="taggit_taggeditem" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="true" digits="10" id="-1" name="id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="0" name="object_id" nullable="false" remarks="" size="2000000000" type="INTEGER"/>
+         <column autoUpdated="false" digits="10" id="1" name="content_type_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="django_content_type"/>
+         </column>
+         <column autoUpdated="false" digits="10" id="2" name="tag_id" nullable="false" remarks="" size="2000000000" type="INTEGER">
+            <parent column="id" foreignKey="" implied="false" onDeleteCascade="false" table="taggit_tag"/>
+         </column>
+         <index name="taggit_taggeditem_417f1b1c" unique="false">
+            <column ascending="true" name="content_type_id"/>
+         </index>
+         <index name="taggit_taggeditem_76f094bc" unique="false">
+            <column ascending="true" name="tag_id"/>
+         </index>
+         <index name="taggit_taggeditem_af31437c" unique="false">
+            <column ascending="true" name="object_id"/>
+         </index>
+      </table>
+   </tables>
+</database>
