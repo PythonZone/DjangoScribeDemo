@@ -1,1 +1,2 @@
-c:\DEV\VENVS\venv_djangoscribe\Scripts\activate.bat
+c:\S\PyVEnvs\ScribeEnv\Scripts\activate
+
