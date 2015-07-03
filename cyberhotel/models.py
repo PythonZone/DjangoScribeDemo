@@ -7,8 +7,8 @@ from django.core.exceptions import ValidationError
 #from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext as _
 
-
 import django.db.models.options as options
+
 options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('computed_fields',)
 
 CATEGORIE = (
@@ -20,17 +20,17 @@ CATEGORIE = (
 
 
 class Residence(models.Model):
-
     class Meta(object):
         computed_fields = [
             'chambres', 'nbDeChambres', 'chambresUtiles',
-            'sallesDeBain', 'salles', 'nbDeSalles' ]
-    nom         = models.CharField(max_length=60)
-    etageMin	  = models.IntegerField(default=0)
-    etageMax    = models.IntegerField()
-    categorie   = models.CharField(max_length=10, choices=CATEGORIE)
-    nbPlacesMax = models.IntegerField(blank=True,null=True)   # TODO
-    tarifMoyen  = models.FloatField(blank=True,null=True)     # TODO
+            'sallesDeBain', 'salles', 'nbDeSalles']
+
+    nom = models.CharField(max_length=60)
+    etageMin = models.IntegerField(default=0)
+    etageMax = models.IntegerField()
+    categorie = models.CharField(max_length=10, choices=CATEGORIE)
+    nbPlacesMax = models.IntegerField(blank=True, null=True)  # TODO
+    tarifMoyen = models.FloatField(blank=True, null=True)  # TODO
 
     def chambres(self):
         return self.salles().instance_of(Chambre)
@@ -39,7 +39,7 @@ class Residence(models.Model):
         return len(self.chambres())
 
     def chambresUtiles(self):
-        return  [ s for s in self.chambres() if not s.enTravaux ]
+        return [s for s in self.chambres() if not s.enTravaux]
 
     def sallesDeBain(self):
         return self.salles().instance_of(SalleDeBain)
@@ -65,23 +65,23 @@ class Residence(models.Model):
 
 
 class Salle(polymorphic.PolymorphicModel):
-    residence   = models.ForeignKey(Residence,related_name="_salles")
-    etage	    = models.IntegerField()
-    enTravaux	= models.BooleanField(default=False)
-    numero      = models.IntegerField()
+    residence = models.ForeignKey(Residence, related_name="_salles")
+    etage = models.IntegerField()
+    enTravaux = models.BooleanField(default=False)
+    numero = models.IntegerField()
 
     def __unicode__(self):
         return str(self.numero)
 
     def validateEtageEntreMinEtMax(self):
-        if ( not(self.residence.etageMin <= self.etage
-                and self.etage<=self.residence.etageMax)):
+        if ( not (self.residence.etageMin <= self.etage
+                  and self.etage <= self.residence.etageMax)):
             raise ValidationError(
                 _(u"l'etage doit etre entre %i et %i,"
                   u"les etages de la residences")
                 % (self.residence.etageMin,
                    self.residence.etageMax),
-                   code="validateEtageEntreMinEtMax")
+                code="validateEtageEntreMinEtMax")
 
     def clean(self):
         self.validateEtageEntreMinEtMax()
@@ -89,7 +89,7 @@ class Salle(polymorphic.PolymorphicModel):
 
 class SalleDeBain(Salle):
     estSurLePallier = models.BooleanField(default=False)  # FIXME
-    chambre         = models.ForeignKey(
+    chambre = models.ForeignKey(
         'Chambre',
         related_name="_sallesDeBains",
         blank=True,
@@ -100,20 +100,19 @@ class SalleDeBain(Salle):
 
 
 class Chambre(Salle):
-
     class Meta(object):
         computed_fields = [
-            'nbDePlaces','occupants','nbDeOccupants','occupantsList']
+            'nbDePlaces', 'occupants', 'nbDeOccupants', 'occupantsList']
 
     nbLitsSimples = models.IntegerField(
         default=1,
         verbose_name='nb de lits simples')
-    nbLitsDoubles	= models.IntegerField(default=0)
-    prix	        = models.FloatField(blank=True, null=True)
-    estNonFumeur    = models.BooleanField(default=True)
+    nbLitsDoubles = models.IntegerField(default=0)
+    prix = models.FloatField(blank=True, null=True)
+    estNonFumeur = models.BooleanField(default=True)
 
     def nbDePlaces(self):
-        return self.nbLitsSimples+self.nbLitsDoubles*2
+        return self.nbLitsSimples + self.nbLitsDoubles * 2
 
     def occupants(self):
         return list(self._occupants.all())
@@ -127,7 +126,7 @@ class Chambre(Salle):
     def __unicode__(self):
         return str(self.numero)
 
-    
+
 GENRE = {
     ('homme', 'homme'),
     ('femme', 'femme'),
@@ -137,22 +136,23 @@ GENRE = {
 class Personne(models.Model):
     class Meta(object):
         abstract = True
-    nom    = models.CharField(max_length=40)
-    age    = models.IntegerField()
-    genre  = models.CharField(max_length=5, choices=GENRE)
+
+    nom = models.CharField(max_length=40)
+    age = models.IntegerField()
+    genre = models.CharField(max_length=5, choices=GENRE)
 
 
 class Resident(Personne):
-    estFumeur      = models.NullBooleanField()
+    estFumeur = models.NullBooleanField()
     chambreOccupee = models.ForeignKey(
         Chambre,
         related_name="_occupants")
-    conjoint       = models.OneToOneField(
+    conjoint = models.OneToOneField(
         "self",
         related_name="+",
         blank=True,
         null=True)
-    tuteurs        = models.ManyToManyField(
+    tuteurs = models.ManyToManyField(
         "self",
         symmetrical=False,
         related_name='tutores',
@@ -181,14 +181,14 @@ class Locataire(Resident):
 
 class Location(models.Model):
     # TODO plural +s -e  to be resolved
-    chambreLouee    = models.ForeignKey(
+    chambreLouee = models.ForeignKey(
         Chambre,
         related_name="_locations")
-    locataire       = models.ForeignKey(
+    locataire = models.ForeignKey(
         Locataire,
         related_name="_locations")
-    dateDepart      = models.DateField()
-    dateFin         = models.DateField()
+    dateDepart = models.DateField()
+    dateFin = models.DateField()
 
     def reduction(self):
         return 0  # TODO
@@ -197,26 +197,25 @@ class Location(models.Model):
         return 0  # TODO
 
     def __unicode__(self):
-        return str(self.chambreLouee.numero)+"/"+self.locataire.nom
+        return str(self.chambreLouee.numero) + "/" + self.locataire.nom
 
 
 class Reduction(models.Model):
-    location   = models.ForeignKey(
-            Location,
-            related_name="_reductions")
+    location = models.ForeignKey(
+        Location,
+        related_name="_reductions")
 
     def validate_taux(taux):
-        if  not (0<=taux and taux<=100):
+        if not (0 <= taux and taux <= 100):
             raise ValidationError(
                 _(u"%s is not a percentage") % taux,
                 code="tauxPercentage")
 
-    taux     = models.IntegerField(validators=[validate_taux])
+    taux = models.IntegerField(validators=[validate_taux])
     #  taux  = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)])
-    label      = models.CharField(max_length=10)
+    label = models.CharField(max_length=10)
 
-  
-    
+
 #  def user_link(self):
 #    return '<a href="%s">%s</a>' % (reverse("admin:auth_user_change", args=(self.user.id,)) , escape(self.user))
 #
