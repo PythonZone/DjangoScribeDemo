@@ -186,7 +186,7 @@ class ReadOnlySalleInline(ReadOnlyTabularInline,SalleInline):
   pass
 
 class ResidencePrestigeAdmin(ReadOnlyAdmin,ResidenceAdmin):
-    def queryset(self, request):
+    def get_queryset(self, request):
         return self.model.objects.filter(categorie='prestige')
     inlines = [ReadOnlySalleInline] 
     # ,ROSalleDeBainInLine,ROChambreInLine]
