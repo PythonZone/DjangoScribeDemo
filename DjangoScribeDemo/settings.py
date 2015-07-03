@@ -31,8 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    # %JFE+1
+    # %JFE+2
     'companies101rdb',
+    ''
     # %JFE+5 added demos
     'demo_scrapy',
     'demo_django_guardian',
