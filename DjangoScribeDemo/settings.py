@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     # %JFE+2
     'companies101rdb',
-    ''
+    'cyberhotel',
     # %JFE+5 added demos
     'demo_scrapy',
     'demo_django_guardian',
