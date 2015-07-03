@@ -14,7 +14,7 @@ from django.utils.translation import ugettext as _
 
 from django.db.models.query import QuerySet
 
-#------- helpers --------------------------------------------------------------------
+#------- helpers --------------------------------------------------------------
 
 
 # COULD BE USEFUL TO HAVE A LOOK AT django-admin-easy
@@ -24,18 +24,18 @@ def htmlTooltip(o):
     r = "<strong>%s %s</strong><br/>" % (o._meta.object_name, str(o))
     for field in o._meta.fields:
         name = field.name
-        type = field.get_internal_type()
+        type_ = field.get_internal_type()
         card = "[0..1]" if field.null else ""
-        if type in ["ForeignKey", "OneToOneField"]:
-            type = type + "(" + field.related.parent_model.__name__ + ")"
+        if type_ in ["ForeignKey", "OneToOneField"]:
+            type_ = type_ + "(" + field.related.parent_model.__name__ + ")"
         value = str(field._get_val_from_obj(o))
         value2 = str(o.__getattribute__(name))
         if value2 != value:
             value = value + ' => "' + value2 + '"'
-        r += "%s : %s%s = %s<br/>" % (name, type, card, value)
+        r += "%s : %s%s = %s<br/>" % (name, type_, card, value)
     if hasattr(o._meta, "computed_fields"):
         computed_fields = o._meta.computed_fields
-        for opname in o._meta.computed_fields:
+        for opname in computed_fields:
             value = o.__getattribute__(opname)()
             if isinstance(value, (tuple, list, QuerySet)) and not isinstance(
                     value, basestring):
@@ -98,9 +98,6 @@ class ReadOnlyTabularInline(admin.TabularInline):
 #------- helpers --------------------------------------------------------------------
 
 
-
-
-
 class SalleInline(admin.TabularInline):
     model = Salle
     #-- edit view
@@ -145,8 +142,6 @@ class ResidenceAdmin(admin.ModelAdmin):  #ImportExportModelAdmin):
         )
 
     resource_class = ResidenceResource  # import_export (?)
-    actions_on_top = True
-    actions_on_bottom = True
 
     def displayChambres(self, instance):
         return objectsToURL(instance.chambres(), sep=',')
@@ -170,7 +165,9 @@ class ResidenceAdmin(admin.ModelAdmin):  #ImportExportModelAdmin):
         ('',
          {'fields': [('nom', 'categorie'), ('etageMin', 'etageMax')],
           'classes': ['grp-collapse'],
-          'description': 'this is <a url="http://localhost:8000/admin/">some</a> text with <em>bold</em><br/>toto'}),
+          'description':
+              'this is <a url="http://localhost:8000/admin/">some</a>'
+              'text with <em>bold</em><br/>toto'}),
         # attribute and rols can be put in any order
         # see http://django-grappelli.readthedocs.org/en/latest/customization.html#rearrange-inlines
         (None,  #ignored
@@ -184,7 +181,8 @@ class ResidenceAdmin(admin.ModelAdmin):  #ImportExportModelAdmin):
           'classes': ['grp-collapse grp-closed']}),  #grappelli
     ]
     radio_fields = {
-        "categorie": admin.HORIZONTAL}  # alternative to dropdown or raw_id for Choice/Dropdown
+        # alternative to dropdown or raw_id for Choice/Dropdown
+        "categorie": admin.HORIZONTAL}
 
     #-- list view
     actions_on_top = True
@@ -197,7 +195,8 @@ class ResidenceAdmin(admin.ModelAdmin):  #ImportExportModelAdmin):
 
     list_filter = ['categorie', 'etageMin', 'etageMax']
     list_display_links = ['nom']
-    # change_list_template = "admin/change_list_filter_sidebar.html"  # grappelli
+    # change_list_template = "admin/change_list_filter_sidebar.html"
+    # grappelli
     search_fields = ['nom']
 
     list_select_related = True  # ?
@@ -244,6 +243,7 @@ class ResidentAdmin(admin.ModelAdmin):
 
 
 class SalleAdmin(admin.ModelAdmin):
+
     def displayResidence(self, instance): return objectToURL(
         instance.residence)
 
@@ -290,6 +290,7 @@ class EtageTypeListFilter(admin.SimpleListFilter):
 
 
 class ChambreAdmin(admin.ModelAdmin):
+    
     def displayResidence(self, instance): return objectToURL(
         instance.residence)
 
