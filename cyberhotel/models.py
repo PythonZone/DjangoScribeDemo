@@ -67,7 +67,7 @@ class Residence(models.Model):
 class Salle(polymorphic.PolymorphicModel):
     residence   = models.ForeignKey(Residence,related_name="_salles")
     etage	    = models.IntegerField()
-    enTravaux	= models.BooleanField()
+    enTravaux	= models.BooleanField(default=False)
     numero      = models.IntegerField()
 
     def __unicode__(self):
@@ -88,7 +88,7 @@ class Salle(polymorphic.PolymorphicModel):
 
 
 class SalleDeBain(Salle):
-    estSurLePallier = models.BooleanField()
+    estSurLePallier = models.BooleanField(default=False)  # FIXME
     chambre         = models.ForeignKey(
         'Chambre',
         related_name="_sallesDeBains",
@@ -110,7 +110,7 @@ class Chambre(Salle):
         verbose_name='nb de lits simples')
     nbLitsDoubles	= models.IntegerField(default=0)
     prix	        = models.FloatField(blank=True, null=True)
-    estNonFumeur    = models.BooleanField()
+    estNonFumeur    = models.BooleanField(default=True)
 
     def nbDePlaces(self):
         return self.nbLitsSimples+self.nbLitsDoubles*2
