@@ -21,7 +21,7 @@ CATEGORIE = (
 
 class Residence(models.Model):
 
-    class Meta:
+    class Meta(object):
         computed_fields = [
             'chambres', 'nbDeChambres', 'chambresUtiles',
             'sallesDeBain', 'salles', 'nbDeSalles' ]
@@ -101,7 +101,7 @@ class SalleDeBain(Salle):
 
 class Chambre(Salle):
 
-    class Meta:
+    class Meta(object):
         computed_fields = [
             'nbDePlaces','occupants','nbDeOccupants','occupantsList']
         nbLitsSimples = models.IntegerField(
@@ -134,7 +134,7 @@ GENRE = {
 
 
 class Personne(models.Model):
-    class Meta:
+    class Meta(object):
         abstract = True
     nom    = models.CharField(max_length=40)
     age    = models.IntegerField()
@@ -166,7 +166,7 @@ class Resident(Personne):
 
 
 class ResidenceResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Residence
 
 
