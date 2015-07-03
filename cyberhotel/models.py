@@ -199,19 +199,22 @@ class Location(models.Model):
     def __unicode__(self):
         return str(self.chambreLouee.numero) + "/" + self.locataire.nom
 
+# should be a top level function instead of a method of Reduction
+# because python 2 limitation for serialization in the context of django
+# migration. See the following url for more information:
+# https://docs.djangoproject.com/en/1.7/topics/migrations/#serializing-values
+def validate_reduction_taux(taux):
+    if not (0 <= taux and taux <= 100):
+        raise ValidationError(
+            _(u"%s is not a percentage") % taux,
+            code="tauxPercentage")
 
 class Reduction(models.Model):
     location = models.ForeignKey(
         Location,
         related_name="_reductions")
 
-    def validate_taux(taux):
-        if not (0 <= taux and taux <= 100):
-            raise ValidationError(
-                _(u"%s is not a percentage") % taux,
-                code="tauxPercentage")
-
-    taux = models.IntegerField(validators=[validate_taux])
+    taux = models.IntegerField(validators=[validate_reduction_taux])
     #  taux  = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)])
     label = models.CharField(max_length=10)
 
