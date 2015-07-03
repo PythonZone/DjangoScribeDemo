@@ -104,12 +104,13 @@ class Chambre(Salle):
     class Meta(object):
         computed_fields = [
             'nbDePlaces','occupants','nbDeOccupants','occupantsList']
-        nbLitsSimples = models.IntegerField(
-            default=1,
-            verbose_name='nb de lits simples')
-        nbLitsDoubles	= models.IntegerField(default=0)
-        prix	        = models.FloatField(blank=True, null=True)
-        estNonFumeur    = models.BooleanField()
+
+    nbLitsSimples = models.IntegerField(
+        default=1,
+        verbose_name='nb de lits simples')
+    nbLitsDoubles	= models.IntegerField(default=0)
+    prix	        = models.FloatField(blank=True, null=True)
+    estNonFumeur    = models.BooleanField()
 
     def nbDePlaces(self):
         return self.nbLitsSimples+self.nbLitsDoubles*2
