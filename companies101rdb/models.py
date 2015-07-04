@@ -7,16 +7,16 @@ from django.db import models
 class Company(models.Model):
     name = models.CharField(max_length=255)
 
-    def employees_company(self):
-        return self._salles.all()
+    def employees(self):
+        return self._employees.all()
 
     def departments(self):
         return self._departements.all()
 
-    class Meta:
-        computed_fields = ['employees_company', 'departments']
+    class Meta(object):
+        computed_fields = ['employees', 'departments']
 
-    # implicit fields: _salles, _departements
+    # implicit fields: _rooms, _departements
 
     def __unicode__(self):
         return self.name
@@ -28,10 +28,10 @@ class Employee(models.Model):
     salary = models.FloatField()
     company = models.ForeignKey(
         'Company',
-        related_name='_employees_company')
+        related_name='_employees')
     department = models.ForeignKey(
         'Department',
-        related_name='_employees_department')
+        related_name='_employees')
     # implicit fields: managed_departement
 
     def __unicode__(self):
@@ -42,20 +42,20 @@ class Department(models.Model):
     name = models.CharField(max_length=255)
     company = models.ForeignKey(
         'Company',
-        related_name='_compartments'
+        related_name='_departments'
     )
     manager = models.OneToOneField(  # ??? should it be on this side?
                                      'Employee',
                                      blank=True, null=True,
-                                     related_name='managed_departement'
+                                     related_name='_managed_department'
                                      # ??? what about its cardinality [0..1]
     )
 
-    def employees_department(self):
-        return self._employees_department.all()
+    def employees(self):
+        return self._employees.all()
 
-    class Meta:
-        computed_fields = ['employees_department', ]
+    class Meta(object):
+        computed_fields = ['employees', ]
 
     def __unicode__(self):
         return self.name
