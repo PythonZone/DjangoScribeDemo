@@ -11,8 +11,8 @@ import django.db.models.options as options
 
 options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('computed_fields',)
 
-CATEGORIE = (
-    ('economique', 'economique'),
+CATEGORY = (
+    ('economy', 'economy'),
     ('standard', 'standard'),
     ('premium', 'premium'),
     ('prestige', 'prestige'),
@@ -22,200 +22,207 @@ CATEGORIE = (
 class Residence(models.Model):
     class Meta(object):
         computed_fields = [
-            'chambres', 'nbDeChambres', 'chambresUtiles',
-            'sallesDeBain', 'salles', 'nbDeSalles']
+            'bedrooms', 'nbOfBedrooms', 'usefulBedrooms',
+            'bathrooms', 'rooms', 'nbOfRooms']
 
-    nom = models.CharField(max_length=60)
-    etageMin = models.IntegerField(default=0)
-    etageMax = models.IntegerField()
-    categorie = models.CharField(max_length=10, choices=CATEGORIE)
-    nbPlacesMax = models.IntegerField(blank=True, null=True)  # TODO
-    tarifMoyen = models.FloatField(blank=True, null=True)  # TODO
+    name = models.CharField(max_length=60)
+    floorMin = models.IntegerField(default=0)
+    floorMax = models.IntegerField()
+    category = models.CharField(max_length=10, choices=CATEGORY)
+    maxNbOfFreeUnits = models.IntegerField(blank=True, null=True)  # TODO
+    avgRate = models.FloatField(blank=True, null=True)  # TODO
 
-    def chambres(self):
-        return self.salles().instance_of(Chambre)
+    def bedrooms(self):
+        return self.rooms().instance_of(Bedroom)
 
-    def nbDeChambres(self):
-        return len(self.chambres())
+    # NotInUML
+    def nbOfBedrooms(self):
+        return len(self.bedrooms())
 
-    def chambresUtiles(self):
-        return [s for s in self.chambres() if not s.enTravaux]
+    def usefulBedrooms(self):
+        return [s for s in self.bedrooms() if not s.isOutOfOrder]
 
-    def sallesDeBain(self):
-        return self.salles().instance_of(SalleDeBain)
+    def bathrooms(self):
+        return self.rooms().instance_of(Bathroom)
 
-    def salles(self):
-        return self._salles.all()
+    # NotInUML
+    def rooms(self):
+        return self._rooms.all()
 
-    def nbDeSalles(self):
-        return len(self.salles())
+    # NotInUML
+    def nbOfRooms(self):
+        return len(self.rooms())
 
     def __unicode__(self):
-        return self.nom
+        return self.name
 
     # for validating entity constraint
-    def validateOrdreEtages(self):
-        if not (self.etageMin <= self.etageMax):
+    def validateFloorOrder(self):
+        if not (self.floorMin <= self.floorMax):
             raise ValidationError(
-                _(u"etage minimum est plus haut que l'etage max"),
-                code="ordreEtages")
+                _(u"the mininum floor is higher tha maximum floor"),
+                code="floorOrder")
 
     def clean(self):
-        self.validateOrdreEtages()
+        self.validateFloorOrder()
 
 
-class Salle(polymorphic.PolymorphicModel):
-    residence = models.ForeignKey(Residence, related_name="_salles")
-    etage = models.IntegerField()
-    enTravaux = models.BooleanField(default=False)
-    numero = models.IntegerField()
+class Room(polymorphic.PolymorphicModel):
+    residence = models.ForeignKey(Residence, related_name="_rooms")
+    floor = models.IntegerField()
+    isOutOfOrder = models.BooleanField(default=False)
+    number = models.IntegerField()
 
     def __unicode__(self):
-        return str(self.numero)
+        return str(self.number)
 
-    def validateEtageEntreMinEtMax(self):
-        if ( not (self.residence.etageMin <= self.etage
-                  and self.etage <= self.residence.etageMax)):
+    def floorBetweenMinAndMax(self):
+        if ( not (self.residence.floorMin <= self.floor
+                  and self.floor <= self.residence.floorMax)):
             raise ValidationError(
-                _(u"l'etage doit etre entre %i et %i,"
-                  u"les etages de la residences")
-                % (self.residence.etageMin,
-                   self.residence.etageMax),
-                code="validateEtageEntreMinEtMax")
+                _('the floor must be between %i and %i')
+                % (self.residence.floorMin,
+                   self.residence.floorMax),
+                code="floorBetweenMinAndMax")
 
     def clean(self):
-        self.validateEtageEntreMinEtMax()
+        self.floorBetweenMinAndMax()
 
 
-class SalleDeBain(Salle):
-    estSurLePallier = models.BooleanField(default=False)  # FIXME
-    chambre = models.ForeignKey(
-        'Chambre',
-        related_name="_sallesDeBains",
+class Bathroom(Room):
+    isOnTheLanding = models.BooleanField(default=False)  # FIXME
+    bedroom = models.ForeignKey(
+        'Bedroom',
+        related_name="_bedrooms",
         blank=True,
         null=True)
 
     def __unicode__(self):
-        return str(self.numero)
+        return str(self.number)
 
 
-class Chambre(Salle):
+class Bedroom(Room):
     class Meta(object):
         computed_fields = [
-            'nbDePlaces', 'occupants', 'nbDeOccupants', 'occupantsList']
+            'nbOfUnits', 'occupants', 'nbDeOccupants', 'occupantsList']
 
-    nbLitsSimples = models.IntegerField(
+    nbOfSingleBeds = models.IntegerField(
         default=1,
-        verbose_name='nb de lits simples')
-    nbLitsDoubles = models.IntegerField(default=0)
-    prix = models.FloatField(blank=True, null=True)
-    estNonFumeur = models.BooleanField(default=True)
+        verbose_name='number of single beds')
+    nbOfDoubleBeds = models.IntegerField(default=0)
+    rate = models.FloatField(blank=True, null=True)
+    isNonSmoking = models.BooleanField(default=True)
 
-    def nbDePlaces(self):
-        return self.nbLitsSimples + self.nbLitsDoubles * 2
+    def nbOfUnits(self):
+        return self.nbOfSingleBeds + self.nbOfDoubleBeds * 2
 
     def occupants(self):
         return list(self._occupants.all())
 
+    # NotInUML
     def nbDeOccupants(self):
-        return len(self.occupants())
+        return len(self.occupants())   # FIXME should use a query
 
+    # NotInUML
     def occupantsList(self):
         return ",".join(str(o) for o in self.occupants())
 
     def __unicode__(self):
-        return str(self.numero)
+        return str(self.number)
 
 
-GENRE = {
-    ('homme', 'homme'),
-    ('femme', 'femme'),
+GENDER = {
+    ('male', 'male'),
+    ('female', 'female'),
 }
 
 
-class Personne(models.Model):
+class Person(models.Model):
     class Meta(object):
         abstract = True
 
-    nom = models.CharField(max_length=40)
+    name = models.CharField(max_length=40)
     age = models.IntegerField()
-    genre = models.CharField(max_length=5, choices=GENRE)
+    gender = models.CharField(max_length=5, choices=GENDER)
 
 
-class Resident(Personne):
-    estFumeur = models.NullBooleanField()
-    chambreOccupee = models.ForeignKey(
-        Chambre,
+class Resident(Person):
+    isSmoker = models.NullBooleanField()
+    occupiedRooms = models.ForeignKey(
+        Bedroom,
         related_name="_occupants")
-    conjoint = models.OneToOneField(
+    consort = models.OneToOneField(
         "self",
         related_name="+",
         blank=True,
         null=True)
-    tuteurs = models.ManyToManyField(
+    tutors = models.ManyToManyField(
         "self",
         symmetrical=False,
-        related_name='tutores',
+        related_name='tutored',
         blank=True,
         null=True)
 
     def __unicode__(self):
-        return self.nom
+        return self.name
 
     def residence(self):
-        return self.chambreOccupee.residence
+        return self.occupiedRooms.residence
 
-
+# NotInUML
 class ResidenceResource(resources.ModelResource):
     class Meta(object):
         model = Residence
 
 
-class Locataire(Resident):
-    def prixPaye(self):
+class Tenant(Resident):
+    def paidRate(self):
         return 0  # TODO
 
     def __unicode__(self):
-        return self.nom
+        return self.name
 
 
-class Location(models.Model):
-    # TODO plural +s -e  to be resolved
-    chambreLouee = models.ForeignKey(
-        Chambre,
-        related_name="_locations")
-    locataire = models.ForeignKey(
-        Locataire,
-        related_name="_locations")
-    dateDepart = models.DateField()
+class Rent(models.Model):
+    # TODO NotInUML (not directly) rentedBedroomS, singular(x)
+    rentedBedroom = models.ForeignKey(
+        Bedroom,
+        # TODO NotInUML (not directly): rent  plural(x)
+        related_name="_rents")
+    tenant = models.ForeignKey(
+        Tenant,
+        related_name="_rents")
+    # NotInUML
+    startDate = models.DateField()
+    # NotInUML
     dateFin = models.DateField()
 
-    def reduction(self):
+    def discount(self):
         return 0  # TODO
 
-    def prix(self):
+    def rate(self):
         return 0  # TODO
 
     def __unicode__(self):
-        return str(self.chambreLouee.numero) + "/" + self.locataire.nom
+        return str(self.rentedBedroom.number) + "/" + self.tenant.name
 
-# should be a top level function instead of a method of Reduction
+# should be a top level function instead of a method of Discount
 # because python 2 limitation for serialization in the context of django
 # migration. See the following url for more information:
 # https://docs.djangoproject.com/en/1.7/topics/migrations/#serializing-values
-def validate_reduction_taux(taux):
-    if not (0 <= taux and taux <= 100):
+def validateDomainPercentage(percentage):
+    if not (0 <= percentage and percentage <= 100):
         raise ValidationError(
-            _(u"%s is not a percentage") % taux,
-            code="tauxPercentage")
+            _(u"%s is not a percentage") % percentage,
+            code="domainPercentage")
 
-class Reduction(models.Model):
-    location = models.ForeignKey(
-        Location,
-        related_name="_reductions")
+class Discount(models.Model):
+    rent = models.ForeignKey(
+        Rent,
+        related_name="_discounts")
 
-    taux = models.IntegerField(validators=[validate_reduction_taux])
-    #  taux  = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)])
+    percentage = models.IntegerField(validators=[validateDomainPercentage])
+    #  percentage  = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)])
     label = models.CharField(max_length=10)
 
 

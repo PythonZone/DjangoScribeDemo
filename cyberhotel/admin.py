@@ -7,8 +7,8 @@ from django.utils.html import format_html
 #from import_export.admin import ImportExportModelAdmin
 
 from cyberhotel.models import \
-    Residence, Salle, SalleDeBain, Chambre, \
-    Resident, Locataire, Location, Reduction
+    Residence, Room, Bathroom, Bedroom, \
+    Resident, Tenant, Rent, Discount
 from cyberhotel.models import ResidenceResource
 from django.utils.translation import ugettext as _
 
@@ -98,30 +98,31 @@ class ReadOnlyTabularInline(admin.TabularInline):
 #------- helpers --------------------------------------------------------------------
 
 
-class SalleInline(admin.TabularInline):
-    model = Salle
+class RoomInline(admin.TabularInline):
+    model = Room
     #-- edit view
     classes = ('grp-collapse grp-open',)  # grappelli
-    fields = ['numero', 'etage', 'enTravaux']
+    fields = ['number', 'floor', 'isOutOfOrder']
     extra = 0
 
 
-class SalleDeBainInLine(admin.StackedInline):
-    model = SalleDeBain
+class BathroomInLine(admin.StackedInline):
+    model = Bathroom
     #-- edit view
     classes = ('grp-collapse grp-closed',)
-    fields = ['numero', 'etage', 'enTravaux', 'estSurLePallier', 'chambre']
+    fields = ['number', 'floor', 'isOutOfOrder', 'isOnTheLanding', 'bedroom']
     extra = 0
 
 
-class ChambreInLine(admin.StackedInline):
-    model = Chambre
+class BedroomInLine(admin.StackedInline):
+    model = Bedroom
     #-- edit view
     classes = ('grp-collapse grp-closed',)  # grappelli
     inline_classes = (
         'grp-collapse grp-closed',)  # grappelli # only for stackedInline
-    fields = ['numero', 'etage', 'enTravaux', 'nbLitsSimples', 'nbLitsDoubles',
-              'prix', 'estNonFumeur']
+    fields = ['number', 'floor', 'isOutOfOrder',
+              'nbOfSingleBeds',  'nbOfDoubleBeds',
+              'rate', 'isNonSmoking']
     extra = 0
 
 
@@ -143,61 +144,62 @@ class ResidenceAdmin(admin.ModelAdmin):  #ImportExportModelAdmin):
 
     resource_class = ResidenceResource  # import_export (?)
 
-    def displayChambres(self, instance):
+    def displayBedrooms(self, instance):
         return objectsToURL(instance.chambres(), sep=',')
 
-    displayChambres.short_description = 'chambres'
-    displayChambres.allow_tags = True
+    displayBedrooms.short_description = 'bedrooms'
+    displayBedrooms.allow_tags = True
 
-    def displayChambresUtiles(self, instance):
-        return objectsToURL(instance.chambresUtiles(), sep='<br/>')
+    def displayUsefulBedrooms(self, instance):
+        return objectsToURL(instance.usefulBedrooms(), sep='<br/>')
 
-    displayChambresUtiles.short_description = 'chambresUtiles'
-    displayChambresUtiles.allow_tags = True
+    displayUsefulBedrooms.short_description = 'useful bedrooms'
+    displayUsefulBedrooms.allow_tags = True
 
-    def displaySallesDeBain(self, instance):
-        return objectsToURL(instance.sallesDeBain(), sep=',')
+    def displayBathrooms(self, instance):
+        return objectsToURL(instance.bathrooms(), sep=',')
 
-    displaySallesDeBain.short_description = 'sallesDeBain'
-    displaySallesDeBain.allow_tags = True
+    displayBathrooms.short_description = 'bathrooms'
+    displayBathrooms.allow_tags = True
+
     #-- edit view
     fieldsets = [
         ('',
-         {'fields': [('nom', 'categorie'), ('etageMin', 'etageMax')],
+         {'fields': [('name', 'category'), ('floorMin', 'floorMax')],
           'classes': ['grp-collapse'],
           'description':
               'this is <a url="http://localhost:8000/admin/">some</a>'
               'text with <em>bold</em><br/>toto'}),
-        # attribute and rols can be put in any order
+        # attribute and roles can be put in any order
         # see http://django-grappelli.readthedocs.org/en/latest/customization.html#rearrange-inlines
         (None,  #ignored
          {'fields': (),  # grappelli
-          'classes': ("placeholder _salles-2-group",),
+          'classes': ("placeholder _rooms-2-group",),
           'description': 'this is some text with <em>bold</em><br/>toto'}
          #ignored
         ),
         ('Additional information',
-         {'fields': [('nbPlacesMax', 'tarifMoyen')],
+         {'fields': [('maxNbOfFreeUnits', 'avgRate')],
           'classes': ['grp-collapse grp-closed']}),  #grappelli
     ]
     radio_fields = {
-        # alternative to dropdown or raw_id for Choice/Dropdown
-        "categorie": admin.HORIZONTAL}
+        # alternative to drop down or raw_id for Choice/Drop down
+        "category": admin.HORIZONTAL}
 
     #-- list view
     actions_on_top = True
     actions_on_bottom = False  # no effect with grappelli
-    inlines = [SalleInline, SalleDeBainInLine, ChambreInLine]
-    list_display = ['nom', 'categorie', 'etageMin', 'etageMax', 'nbDeSalles',
-                    'displayChambres', 'displaySallesDeBain',
-                    'displayChambresUtiles']
-    list_editable = ['categorie', 'etageMin', 'etageMax']
+    inlines = [RoomInline, BathroomInLine, BedroomInLine]
+    list_display = ['name', 'category', 'floorMin', 'floorMax', 'nbOfRooms',
+                    'displayBedrooms', 'displayBathrooms',
+                    'displayUsefulBedrooms']
+    list_editable = ['category', 'floorMin', 'floorMax']
 
-    list_filter = ['categorie', 'etageMin', 'etageMax']
-    list_display_links = ['nom']
+    list_filter = ['category', 'floorMin', 'floorMax']
+    list_display_links = ['name']
     # change_list_template = "admin/change_list_filter_sidebar.html"
     # grappelli
-    search_fields = ['nom']
+    search_fields = ['name']
 
     list_select_related = True  # ?
 
@@ -208,41 +210,41 @@ class ResidencePrestige(Residence):
         proxy = True
 
 
-class ReadOnlySalleInline(ReadOnlyTabularInline, SalleInline):
+class ReadOnlyRoomInline(ReadOnlyTabularInline, RoomInline):
     pass
 
 
 class ResidencePrestigeAdmin(ReadOnlyAdmin, ResidenceAdmin):
     def get_queryset(self, request):
-        return self.model.objects.filter(categorie='prestige')
+        return self.model.objects.filter(category='prestige')
 
-    inlines = [ReadOnlySalleInline]
+    inlines = [ReadOnlyRoomInline]
     # ,ROSalleDeBainInLine,ROChambreInLine]
-    # readonly_fields = ['nom','etageMin','etageMax','categorie','salles']
+    # readonly_fields = ['name','floorMin','floorMax','category','rooms']
     #-- list view
-    # list_display = ['nom','categorie']
+    # list_display = ['name','category']
     # list_editable = []
     # inlines = []
 
 
-#class EstResponsableDeInline(admin.TabularInline):
-#  model = Resident.tuteurs.through
+#class IsTutoredByInline(admin.TabularInline):
+#  model = Resident.tutors.through
 #  fk_name = 'from_resident'
 
 class ResidentAdmin(admin.ModelAdmin):
     #-- list view
-    list_display = ['nom', 'genre', 'age', 'estFumeur', 'conjoint',
-                    'residence', 'chambreOccupee']
-    list_editable = ['genre', 'age', 'estFumeur', 'conjoint', 'chambreOccupee']
-    list_filter = ['age', 'genre', 'estFumeur', 'chambreOccupee']
-    c = ['nom']
+    list_display = ['name', 'gender', 'age', 'isSmoker', 'consort',
+                    'residence', 'occupiedRooms']
+    list_editable = ['gender', 'age', 'isSmoker', 'consort', 'occupiedRooms']
+    list_filter = ['age', 'gender', 'isSmoker', 'occupiedRooms']
+    c = ['name']
     #-- edit view
-    fields = [("nom", "age", "genre"), ("chambreOccupee", "estFumeur"),
-              'conjoint', 'tuteurs']
-    # inlines = [ EstResponsableDeInline, ]
+    fields = [("name", "age", "gender"), ("occupiedRooms", "isSmoker"),
+              'consort', 'tutors']
+    # inlines = [ IsTutoredByInline, ]
 
 
-class SalleAdmin(admin.ModelAdmin):
+class RoomAdmin(admin.ModelAdmin):
 
     def displayResidence(self, instance): return objectToURL(
         instance.residence)
@@ -252,15 +254,15 @@ class SalleAdmin(admin.ModelAdmin):
 
     readonly_fields = [displayResidence]
     #-- list view
-    list_display = ['__unicode__', 'displayResidence', 'etage', 'enTravaux']
+    list_display = ['__unicode__', 'displayResidence', 'floor', 'isOutOfOrder']
     list_display_links = ['__unicode__']
     #-- edit view
 
 
-class SalleDeBainAdmin(admin.ModelAdmin):
+class BathroomAdmin(admin.ModelAdmin):
     #-- list view
-    list_display = ['__unicode__', 'residence', 'numero', 'etage', 'enTravaux',
-                    'estSurLePallier', 'chambre']
+    list_display = ['__unicode__', 'residence', 'number', 'floor', 'isOutOfOrder',
+                    'isOnTheLanding', 'bedroom']
     list_display_links = ['__unicode__']
     #-- edit view
 
@@ -271,26 +273,26 @@ class SalleDeBainAdmin(admin.ModelAdmin):
 
 
 # see https://docs.djangoproject.com/en/dev/ref/contrib/admin/#modeladmin-options
-class EtageTypeListFilter(admin.SimpleListFilter):
-    title = _('type d etage')
+class FloorTypeListFilter(admin.SimpleListFilter):
+    title = _('type d floor')
     parameter_name = 'etageType'
 
     def lookups(self, request, model_admin):
         qs = model_admin.get_queryset(request)
-        if qs.filter(etage__lte=1).exists():
-            yield ('rdc', _('rdc'))
-        if qs.filter(etage__gte=2).exists():
-            yield ('autre', _('autre'))
+        if qs.filter(floor__lte=1).exists():
+            yield ('basement', _('basement'))
+        if qs.filter(floor__gte=2).exists():
+            yield ('other', _('other'))
 
     def queryset(self, request, queryset):
-        if self.value() == 'rdc':
-            return queryset.filter(etage__lte=1)
+        if self.value() == 'basement':
+            return queryset.filter(floor__lte=1)
         if self.value() == 'autre':
-            return queryset.filter(etage__gte=2)
+            return queryset.filter(floor__gte=2)
 
 
-class ChambreAdmin(admin.ModelAdmin):
-    
+class BedroomAdmin(admin.ModelAdmin):
+
     def displayResidence(self, instance): return objectToURL(
         instance.residence)
 
@@ -305,47 +307,47 @@ class ChambreAdmin(admin.ModelAdmin):
     displayOccupants.allow_tags = True
     # always put operation and display operation into readonly_fields:
     # this makes it possible to put them in list_display (list view) and fields view
-    readonly_fields = ['nbDePlaces', 'occupants', 'occupantsList',
+    readonly_fields = ['nbOfUnits', 'occupants', 'occupantsList',
                        'displayResidence', 'displayOccupants']
     #-- list view
-    list_display = ['__unicode__', 'displayResidence', 'etage', 'enTravaux',
-                    'nbLitsSimples', 'nbLitsDoubles', 'prix', 'estNonFumeur',
-                    'nbDeOccupants', 'nbDePlaces', 'displayOccupants']
+    list_display = ['__unicode__', 'displayResidence', 'floor', 'isOutOfOrder',
+                    'nbOfSingleBeds', 'nbOfDoubleBeds', 'rate', 'isNonSmoking',
+                    'nbDeOccupants', 'nbOfUnits', 'displayOccupants']
     list_display_links = ['__unicode__']
     # change_list_template = "admin/change_list_filter_sidebar.html"  # grappelli
-    list_filter = ['residence', 'residence__categorie', EtageTypeListFilter,
-                   'etage', 'enTravaux', 'nbLitsSimples', 'nbLitsDoubles',
-                   'estNonFumeur']
-    search_fields = ['prix', 'residence__nom']
-    ordering = ['residence', 'numero']
+    list_filter = ['residence', 'residence__category', FloorTypeListFilter,
+                   'floor', 'isOutOfOrder', 'nbOfSingleBeds', 'nbOfDoubleBeds',
+                   'isNonSmoking']
+    search_fields = ['rate', 'residence_name']
+    ordering = ['residence', 'number']
     list_per_page = 10
     #-- edit view
-    fields = ['residence', ('numero', 'etage'), 'enTravaux',
-              ('nbLitsSimples', 'nbLitsDoubles'), 'estNonFumeur', 'prix',
-              'nbDePlaces', 'displayOccupants']
+    fields = ['residence', ('number', 'floor'), 'isOutOfOrder',
+              ('nbOfSingleBeds', 'nbOfDoubleBeds'), 'isNonSmoking', 'rate',
+              'nbOfUnits', 'displayOccupants']
 
 
-class LocataireAdmin(admin.ModelAdmin):
+class TenantAdmin(admin.ModelAdmin):
     pass
 
 
-class ReductionInline(admin.TabularInline):
-    model = Reduction
+class DiscountInline(admin.TabularInline):
+    model = Discount
     extra = 0
 
 
-class LocationAdmin(admin.ModelAdmin):
-    list_display = ['locataire', 'chambreLouee', 'dateDepart', 'dateFin']
-    inlines = [ReductionInline]
+class RentAdmin(admin.ModelAdmin):
+    list_display = ['tenant', 'rentedBedroom', 'startDate', 'dateFin']
+    inlines = [DiscountInline]
 
 
 admin.site.register(Residence, ResidenceAdmin)
-admin.site.register(Salle, SalleAdmin)
-admin.site.register(SalleDeBain, SalleDeBainAdmin)
-admin.site.register(Chambre, ChambreAdmin)
+admin.site.register(Room, RoomAdmin)
+admin.site.register(Bathroom, BathroomAdmin)
+admin.site.register(Bedroom, BedroomAdmin)
 admin.site.register(Resident, ResidentAdmin)
-admin.site.register(Locataire, LocataireAdmin)
-admin.site.register(Location, LocationAdmin)
+admin.site.register(Tenant, TenantAdmin)
+admin.site.register(Rent, RentAdmin)
 admin.site.register(ResidencePrestige, ResidencePrestigeAdmin)
 
 # ===== introspection of an django object ========================
