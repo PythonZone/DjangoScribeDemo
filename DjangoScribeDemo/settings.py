@@ -87,6 +87,9 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    # %JFE+1 added for django-querycount
+    'querycount.middleware.QueryCountMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -261,5 +264,21 @@ LOGGING = {
             'filters': ['ignore_some_warnings', ],
         }
     },
+}
+# %JFE+]
+
+
+
+# %JFE+[
+# Settings for django-querycount. Currently default
+QUERYCOUNT = {
+    'THRESHOLDS': {
+        'MEDIUM': 50,
+        'HIGH': 200,
+        'MIN_TIME_TO_LOG': 0,
+        'MIN_QUERY_COUNT_TO_LOG': 0
+    },
+    'IGNORE_REQUEST_PATTERNS': [],
+    'IGNORE_SQL_PATTERNS': []
 }
 # %JFE+]
