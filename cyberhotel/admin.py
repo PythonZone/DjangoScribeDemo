@@ -1,18 +1,18 @@
 # coding=utf-8
 
-from django.contrib import admin
+from __future__ import absolute_import, print_function
 
+from django.contrib import admin
+from django.utils.translation import ugettext as _
+from django.db.models.query import QuerySet
 from django.utils.html import format_html
 #from django.core.urlresolvers import reverse
 #from import_export.admin import ImportExportModelAdmin
 
-from cyberhotel.models import \
+from .models import \
     Residence, Room, Bathroom, Bedroom, \
     Resident, Tenant, Rent, Discount
-from cyberhotel.models import ResidenceResource
-from django.utils.translation import ugettext as _
-
-from django.db.models.query import QuerySet
+from .models import ResidenceResource
 
 #------- helpers --------------------------------------------------------------
 
