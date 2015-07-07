@@ -31,7 +31,7 @@ urlpatterns = patterns('',
     # see https://docs.djangoproject.com/en/1.7/ref/contrib/admin/admindocs/#overview
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-                       # Examples:
+    # Examples:
     # url(r'^$', 'DjangoScribeDemo.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
@@ -54,4 +54,7 @@ urlpatterns = patterns('',
     # %JFE+2 added for rest-framework example. added at 'sql/' here
     # see http://www.django-rest-framework.org/#example
     url(r'^sql/', include('explorer.urls')),
+    # %JFE+2 added for django-silk
+    # see https://github.com/mtford90/silk/#installation
+    url(r'^silk/', include('silk.urls', namespace='silk')),
 )

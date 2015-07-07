@@ -54,6 +54,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     # %JFE+1 added for django_debug_toolbar
     'debug_toolbar',
+    # %JFE+1 added for django-silk
+    'silk',
     # %JFE+1 added for mptt
     'mptt',
     # %JFE+1 added for django-select2
@@ -89,6 +91,9 @@ INSTALLED_APPS = (
 MIDDLEWARE_CLASSES = (
     # %JFE+1 added for django-querycount
     'querycount.middleware.QueryCountMiddleware',
+    # %JFE+2 added for django-silk
+    # for ordering tips see https://github.com/mtford90/silk/#installation
+    'silk.middleware.SilkyMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
