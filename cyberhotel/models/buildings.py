@@ -123,6 +123,10 @@ class Residence(models.Model):
     def clean(self):
         self.validateFloorOrder()
 
+# example of a view
+class ResidencePrestige(Residence):
+    class Meta(object):
+        proxy = True
 
 
 
