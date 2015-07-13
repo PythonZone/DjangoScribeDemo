@@ -4,13 +4,13 @@ from __future__ import absolute_import, print_function
 
 from django.contrib import admin
 from django.utils.translation import ugettext as _
-#from django.core.urlresolvers import reverse
-#from import_export.admin import ImportExportModelAdmin
 
-from .models import \
-    Residence, Room, Bathroom, Bedroom, \
-    Resident, Tenant, Rent, Discount
-from .models import ResidenceResource
+from ..misc import \
+    objectsToURL, ReadOnlyTabularInline, ReadOnlyAdmin, objectToURL
+from ..models import \
+    Residence, Room, Bathroom, Bedroom
+from ..models import ResidenceResource
+
 
 
 class RoomInline(admin.TabularInline):
@@ -119,10 +119,6 @@ class ResidenceAdmin(admin.ModelAdmin):  #ImportExportModelAdmin):
     list_select_related = True  # ?
 
 
-# example of a view
-class ResidencePrestige(Residence):
-    class Meta(object):
-        proxy = True
 
 
 class ReadOnlyRoomInline(ReadOnlyTabularInline, RoomInline):
@@ -141,22 +137,6 @@ class ResidencePrestigeAdmin(ReadOnlyAdmin, ResidenceAdmin):
     # list_editable = []
     # inlines = []
 
-
-#class IsTutoredByInline(admin.TabularInline):
-#  model = Resident.tutors.through
-#  fk_name = 'from_resident'
-
-class ResidentAdmin(admin.ModelAdmin):
-    #-- list view
-    list_display = ['name', 'gender', 'age', 'isSmoker', 'consort',
-                    'residence', 'occupiedRooms']
-    list_editable = ['gender', 'age', 'isSmoker', 'consort', 'occupiedRooms']
-    list_filter = ['age', 'gender', 'isSmoker', 'occupiedRooms']
-    c = ['name']
-    #-- edit view
-    fields = [("name", "age", "gender"), ("occupiedRooms", "isSmoker"),
-              'consort', 'tutors']
-    # inlines = [ IsTutoredByInline, ]
 
 
 class RoomAdmin(admin.ModelAdmin):
@@ -242,74 +222,3 @@ class BedroomAdmin(admin.ModelAdmin):
               'nbOfUnits', 'displayOccupants']
 
 
-class TenantAdmin(admin.ModelAdmin):
-    pass
-
-
-class DiscountInline(admin.TabularInline):
-    model = Discount
-    extra = 0
-
-
-class RentAdmin(admin.ModelAdmin):
-    list_display = ['tenant', 'rentedBedroom', 'startDate', 'dateFin']
-    inlines = [DiscountInline]
-
-
-admin.site.register(Residence, ResidenceAdmin)
-admin.site.register(Room, RoomAdmin)
-admin.site.register(Bathroom, BathroomAdmin)
-admin.site.register(Bedroom, BedroomAdmin)
-admin.site.register(Resident, ResidentAdmin)
-admin.site.register(Tenant, TenantAdmin)
-admin.site.register(Rent, RentAdmin)
-admin.site.register(ResidencePrestige, ResidencePrestigeAdmin)
-
-# ===== introspection of an django object ========================
-# http://stackoverflow.com/questions/2233883/get-all-related-django-model-objects
-
-# ======  add a user to the creator of an object ========
-# # app/models.py
-
-# from https://code.djangoproject.com/wiki/CookBookNewformsAdminAndUser
-
-# from django.db import models
-# from django.contrib.auth.models import User
-
-# class Post(models.Model):
-# user = models.ForeignKey(User)
-# content = models.TextField()
-
-# class Comment(models.Model):
-# post = models.ForeignKey(Post)
-# user = models.ForeignKey(User)
-# content = models.TextField()
-
-# # app/admin.py
-
-# from app.models import Post, Comment
-# from django.contrib import admin
-
-# class CommentInline(admin.TabularInline):
-# model = Comment
-# fields = ('content',)
-
-# class PostAdmin(admin.ModelAdmin):
-
-# fields= ('content',)
-# inlines = [CommentInline]
-
-# def save_model(self, request, obj, form, change):
-# obj.user = request.user
-# obj.save()
-
-# def save_formset(self, request, form, formset, change):
-# if formset.model == Comment:
-# instances = formset.save(commit=False)
-# for instance in instances:
-# instance.user = request.user
-# instance.save()
-# else:
-# formset.save()
-
-# admin.site.register(Post, PostAdmin)
