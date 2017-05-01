@@ -6,7 +6,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 
-import polymorphic
+import polymorphic.models
 from import_export import resources
 
 
@@ -51,7 +51,7 @@ class Residence(models.Model):
     category = models.CharField(
         choices=Category.CHOICES,
         max_length=Category.MAX_LENGTH,
-        # TODO: add validator django-choices
+        # TODO: check if it is necessary to validator, as in django-choices
         # validators=[Category.validator]
     )
 
@@ -132,7 +132,7 @@ class ResidencePrestige(Residence):
 
 
 
-class Room(polymorphic.PolymorphicModel):
+class Room(polymorphic.models.PolymorphicModel):
 
     #---- structure -----------------------------------------------------------
     residence = models.ForeignKey(
