@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'demo_django_taggit',
     # %JFE+1 added for djangosuit
     'suit',
+    # %JFE+1 added for django-polymorphic
+    "polymorphic",
     # %JFE+1 added for djangosuit_redactor  extention
     'suit_redactor',
     'django.contrib.admin',
@@ -141,11 +143,11 @@ STATIC_URL = '/static/'
 
 
 # %JFE+[ added for djangosuit and for django-fsm-admin
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+# from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-)
+# TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+#     'django.core.context_processors.request',  #%JFE17
+# )
 # %JFE+]
 
 
